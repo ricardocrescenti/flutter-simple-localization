@@ -6,6 +6,8 @@ Implement `localizations` in your packages and applications simply.
 import 'package:simple_localization/simple_localization.dart';
 ```
 
+## How to internationalize your app or package
+
 First, I recommend that you declare an enumeration with the message names to make it easier to find messages
 
 ```dart
@@ -62,8 +64,6 @@ It is not necessary to declare localization in `localizationsDelegates` of `Mate
 
 When specifying other locations (other than 'en'), you will need to add in the `supportedLocales` of` MaterialApp` the locations `GlobalMaterialLocalizations.delegate` and` GlobalWidgetsLocalizations.delegate`, missing these locations will generate an application error.
 
-### How to configure localizations
-
 In your `pubspec.yaml` add follow dependencie:
 
 ```yaml
@@ -74,6 +74,55 @@ In your `pubspec.yaml` add follow dependencie:
 And in your `MaterialApp`, add localizations in `supportedLocales`
 
 ```dart
-GlobalMaterialLocalizations.delegate,
-GlobalWidgetsLocalizations.delegate,
+MaterialApp(
+  localizationsDelegates: [
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ],
+)
+```
+
+## Customize package locations
+
+It is often used in package internationalizations, when the developer needs to modify the default messages used in package, for that you need to extend the location of your package, and implement `BasicLocalizationsDelegate`.
+
+First let's create the custom internationalization that will extend the default package location.
+
+```dart
+class CustomLocalization extends ExampleLocalizations {
+  @override
+  Map<dynamic, Map<dynamic, String>> get localizedValues => {
+    'en': {
+      WidgetMessages.message1: 'Custom first message',
+      WidgetMessages.message2: 'Custom second message',
+    },
+    'es': {
+      WidgetMessages.message1: 'Primer mensaje personalizado',
+      WidgetMessages.message2: 'Segundo mensaje personalizado',
+    },
+    'pt': {
+      WidgetMessages.message1: 'Primeira mensagem personalizada',
+      WidgetMessages.message2: 'Segunda mensagem personalizada',
+    }
+  };
+}
+```
+
+Now let's create the `BasicLocalizationsDelegate` class to define the custom class to be loaded by the application.
+
+```
+class CustomLocalizationsDelegate extends BasicLocalizationsDelegate<CustomLocalization> {
+  @override
+  customLocalization(Locale locale) => CustomLocalization(locale);
+}
+```
+
+And finally, inform the delegate in `localizationsDelegates` of your apps `MaterialApp`.
+
+```dart
+MaterialApp(
+  localizationsDelegates: [
+    CustomLocalizationsDelegate(),
+  ],
+)
 ```
