@@ -91,7 +91,7 @@ MaterialApp(
 
 ## Customize package locations
 
-It is often used in package internationalizations, when the developer needs to modify the default messages used in package, for that you need to extend the location of your package, and implement `BasicLocalizationsDelegate`.
+It is often used in package internationalizations, when the developer needs to modify the default messages used in package, for that you need to extend the location of your package.
 
 First let's create the custom internationalization that will extend the default package location.
 
