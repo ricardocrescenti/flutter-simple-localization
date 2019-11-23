@@ -90,8 +90,10 @@ First let's create the custom internationalization that will extend the default 
 
 ```dart
 class CustomLocalization extends ExampleLocalizations {
+  CustomLocalization(Locale locale) : super(locale);
+
   @override
-  Map<dynamic, Map<dynamic, String>> get localizedValues => {
+  Map<dynamic, Map<dynamic, String>> get customValues => {
     'en': {
       WidgetMessages.message1: 'Custom first message',
       WidgetMessages.message2: 'Custom second message',
@@ -111,7 +113,7 @@ class CustomLocalization extends ExampleLocalizations {
 Now let's create the `BasicLocalizationsDelegate` class to define the custom class to be loaded by the application.
 
 ```
-class CustomLocalizationsDelegate extends BasicLocalizationsDelegate<CustomLocalization> {
+class CustomLocalizationsDelegate extends BasicLocalizationsDelegate<ExampleLocalizations> {
   @override
   customLocalization(Locale locale) => CustomLocalization(locale);
 }

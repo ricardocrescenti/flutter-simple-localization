@@ -31,8 +31,15 @@ abstract class SimpleLocalizations {
   /// Message values to be used by your app for all supported locations.
   Map<String, Map<dynamic, String>> get localizedValues;
 
+  /// Custom values, used to modify certain values, this property should only
+  /// be used in custom package locations that use internationalization.
+  Map<String, Map<dynamic, String>> get customValues => null;
+
   /// Operator to get message to use
   String getLocalizedValue(dynamic localizedName) {
+    if (customValues != null && customValues.containsKey(currentLocale.languageCode) && customValues[currentLocale.languageCode].containsKey(localizedName)) {
+      return customValues[currentLocale.languageCode][localizedName];
+    }
     return localizedValues[currentLocale.languageCode][localizedName];
   }
 }
