@@ -21,9 +21,10 @@ abstract class SimpleLocalizations {
         (suportedLocales.contains(locale) ? locale : defaultLocale);
   }
 
-  /// If your device location is not supported, this will be the default 
+  /// If your device location is not supported, this will be the default
   /// location to use
   Locale get defaultLocale;
+
   /// Locations supported by your app
   Iterable<Locale> get suportedLocales;
 
@@ -40,10 +41,9 @@ abstract class SimpleLocalizations {
 /// used in package internationalizations, when the developer needs to modify the default messages, for that you need to extend the location of your package, and return to custom locations in the `customLocalization` method.
 abstract class BasicLocalizationsDelegate<T extends SimpleLocalizations>
     extends LocalizationsDelegate<T> {
-
   BasicLocalizationsDelegate();
 
-  /// 
+  /// Method to get a custom localization
   T customLocalization(Locale locale);
 
   @override
