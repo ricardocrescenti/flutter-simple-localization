@@ -117,15 +117,6 @@ class CustomLocalization extends ExampleLocalizations {
 }
 ```
 
-Now let's create the `BasicLocalizationsDelegate` class to define the custom class to be loaded by the application.
-
-```
-class CustomLocalizationsDelegate extends BasicLocalizationsDelegate<ExampleLocalizations> {
-  @override
-  customLocalization(Locale locale) => CustomLocalization(locale);
-}
-```
-
 And finally, inform the delegate in `localizationsDelegates` of your apps `MaterialApp`.
 
 ```dart
