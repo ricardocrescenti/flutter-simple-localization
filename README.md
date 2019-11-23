@@ -52,6 +52,13 @@ class ExampleLocalizations extends SimpleLocalizations {
     }
   };
 }
+
+/// This class is only needed if you are developing a package, and you want to
+/// make it available to you to develop a way to customize messages.
+class ExampleLocalizationsDelegate extends SimpleLocalizationsDelegate<ExampleLocalizations> {
+  ExampleLocalizationsDelegate(customLocalization) : super(customLocalization);
+}
+
 ```
 
 Below will be shown how to get messages according to app location
@@ -124,7 +131,7 @@ And finally, inform the delegate in `localizationsDelegates` of your apps `Mater
 ```dart
 MaterialApp(
   localizationsDelegates: [
-    CustomLocalizationsDelegate(),
+    ExampleLocalizationsDelegate((locale) => CustomLocalization(locale)),
   ],
 )
 ```

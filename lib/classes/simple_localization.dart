@@ -46,12 +46,11 @@ abstract class SimpleLocalizations {
 
 /// Delegate used if internationalization needs to be customized, it is often
 /// used in package internationalizations, when the developer needs to modify the default messages, for that you need to extend the location of your package, and return to custom locations in the `customLocalization` method.
-abstract class BasicLocalizationsDelegate<T extends SimpleLocalizations>
+abstract class SimpleLocalizationsDelegate<T extends SimpleLocalizations>
     extends LocalizationsDelegate<T> {
-  BasicLocalizationsDelegate();
+  T Function(Locale locale) customLocalization;
 
-  /// Method to get a custom localization
-  T customLocalization(Locale locale);
+  SimpleLocalizationsDelegate(this.customLocalization);
 
   @override
   bool isSupported(Locale locale) => true;
