@@ -20,11 +20,11 @@ class AppPage extends Component {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 20),
-              child: Text(ExampleLocalizations.of(context)[ExampleLocalizationsEnums.bodyTitle], style: Theme.of(context).textTheme.display2,),
+              child: Text(ExampleLocalizations.of(context)[ExampleLocalizationsEnums.bodyTitle], style: Theme.of(context).textTheme.headline3,),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 20),
-              child: Text(ExampleLocalizations.of(context)[ExampleLocalizationsEnums.bodyDescription], style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center,),
+              child: Text(ExampleLocalizations.of(context)[ExampleLocalizationsEnums.bodyDescription], style: Theme.of(context).textTheme.headline4, textAlign: TextAlign.center,),
             ),
             RaisedButton(
               child: Text(ExampleLocalizations.of(context)[ButtonsLocalizationsEnums.en]),
