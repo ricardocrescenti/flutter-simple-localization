@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Class to implement localizations in your packages and applications simply.
 abstract class SimpleLocalizations {
+  
   /// Get current location
   static T of<T>(BuildContext context, T Function(Locale locale) orDefault) {
     T localization = Localizations.of<T>(context, T);
@@ -14,11 +15,10 @@ abstract class SimpleLocalizations {
   Locale get currentLocale => _currentLocale;
 
   /// Operator to get message to use
-  operator [](dynamic message) => getLocalizedValue(message);
+  String operator [](dynamic message) => getLocalizedValue(message);
 
   SimpleLocalizations(Locale locale) {
-    _currentLocale =
-        (suportedLocales.contains(locale) ? locale : defaultLocale);
+    _currentLocale = (suportedLocales.contains(locale) ? locale : defaultLocale);
   }
 
   /// If your device location is not supported, this will be the default
@@ -46,8 +46,7 @@ abstract class SimpleLocalizations {
 
 /// Delegate used if internationalization needs to be customized, it is often
 /// used in package internationalizations, when the developer needs to modify the default messages, for that you need to extend the location of your package, and return to custom locations in the `customLocalization` method.
-abstract class SimpleLocalizationsDelegate<T extends SimpleLocalizations>
-    extends LocalizationsDelegate<T> {
+abstract class SimpleLocalizationsDelegate<T extends SimpleLocalizations> extends LocalizationsDelegate<T> {
   T Function(Locale locale) customLocalization;
 
   SimpleLocalizationsDelegate(this.customLocalization);
