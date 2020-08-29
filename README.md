@@ -89,9 +89,17 @@ Below is an example of how to get the message according to the current language.
 Text(ExampleLocalizations.of(context)[WidgetMessages.message1]);
 ```
 
-In the application that is being internationalized, or an application that uses an internationalized package, the languages ​​supported must be informed in the `supportedLocales` property of `MaterialApp`.
+In the application that is being internationalized, or an application that uses an internationalized package, the languages ​​supported must be informed in the `supportedLocales` property of `MaterialApp`, and you will also need to add the `flutter_localizations` dependency in `pubspec.yaml`.
 
-See an example of implementation below.
+See below how to add dependency.
+
+```yaml
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+```
+
+See below for how to inform the languages supported in your application.
 
 ```dart
 MaterialApp(
@@ -99,6 +107,10 @@ MaterialApp(
     Locale('en'),
     Locale('es'),
     Locale('pt')
+  ],
+  localizationsDelegates: [
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
   ],
 )
 ```

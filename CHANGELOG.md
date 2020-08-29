@@ -1,3 +1,7 @@
+## 1.2.1+1
+
+* Package documentation improvements.
+
 ## 1.2.1
 
 * Return type added in `SimpleLocalizations` get operator.
