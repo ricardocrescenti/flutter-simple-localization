@@ -1,34 +1,62 @@
-# simple_localization
+# Simple Localization
 
-Implement `localizations` in your packages and applications simply.
+Easily internationalize your package or application.
+
+- **[Introduction](#introduction)**
+- **[How to Install](#how-to-install)**
+- **[How to Implement](#how-to-implement)**
+- **[Internationalize a Package](#internationalize-a-package)**
+- **[Customizing internationalized packages](#customizing-internationalized-packages)**
+
+## Introduction
+
+This package simplifies the internationalization of your package or application.
+
+## How to Install
+
+Add the dependency on `pubspec.yaml`. 
+
+*Informing `^` at the beginning of the version, you will receive all updates that are made from version `1.0.0` up to the version before `2.0.0`.*
+
+```yaml
+dependencies:
+  simple_localization: ^1.2.0
+```
+
+Import the package in the source code.
 
 ```dart
 import 'package:simple_localization/simple_localization.dart';
 ```
 
-## How to internationalize your app or package
+## How to Implement
 
-First, I recommend that you declare an enumeration with the message names to make it easier to find messages
+To start the internationalization of your application or package, create a class with inheritance from `SimpleLocalizations`.
+
+I recommend that you declare an enumerate with the names of the messages, you do not need to use an enumeration, you can use the type of your preference, however the use of enumerations facilitates the location of the places that are used a certain message.
+
+Below is an example of the class.
 
 ```dart
+/// Enumerated with the names of the messages that will be used
 enum WidgetMessages { message1, message2 }
-```
 
-Below is an example localization, with the translation of `message1` and` message2` into English, Spanish and Portuguese.
-
-If the application language does not match the supported languages that are declared in `supportedLocales`, the default language entered in` defaultLocale` will be used.
-
-```dart
+/// Internationalization class.
 class ExampleLocalizations extends SimpleLocalizations {
+  
+  /// Declaring the `of` method to get the message in the current language.
   static ExampleLocalizations of(BuildContext context) {
     return SimpleLocalizations.of<ExampleLocalizations>(context, (locale) => ExampleLocalizations(locale));
   }
 
+  /// Standard constructor.
   ExampleLocalizations(Locale locale) : super(locale);
 
+  /// Default locale to use when the device language is not in the list of supported languages.
   @override
   Locale get defaultLocale => Locale('en');
 
+  /// List of supported languages.
   @override
   Iterable<Locale> get suportedLocales => [
     Locale('en'),
@@ -36,8 +64,9 @@ class ExampleLocalizations extends SimpleLocalizations {
     Locale('pt'),
   ];
 
+  /// Language declaration with messages in their respective languages
   @override
-  Map<dynamic, Map<dynamic, String>> get localizedValues => {
+  Map<String, Map<dynamic, String>> get localizedValues => {
     'en': {
       WidgetMessages.message1: 'First message',
       WidgetMessages.message2: 'Second message',
@@ -52,55 +81,72 @@ class ExampleLocalizations extends SimpleLocalizations {
     }
   };
 }
-
-/// This class is only needed if you are developing a package, and you want to
-/// make it available to you to develop a way to customize messages.
-class ExampleLocalizationsDelegate extends SimpleLocalizationsDelegate<ExampleLocalizations> {
-  ExampleLocalizationsDelegate(customLocalization) : super(customLocalization);
-}
-
 ```
 
-Below will be shown how to get messages according to app location
+Below is an example of how to get the message according to the current language.
 
 ```dart
-Text(DemoLocalizations.of(context)[WidgetMessages.message1]);
+Text(ExampleLocalizations.of(context)[WidgetMessages.message1]);
 ```
 
-It is not necessary to declare localization in `localizationsDelegates` of `MaterialApp`, but it is important that you enter `supportedLocales` to specify the languages supported by your application.
+In the application that is being internationalized, or an application that uses an internationalized package, the languages ​​supported must be informed in the `supportedLocales` property of `MaterialApp`.
 
-When specifying other locations (other than 'en'), you will need to add in the `supportedLocales` of` MaterialApp` the locations `GlobalMaterialLocalizations.delegate` and` GlobalWidgetsLocalizations.delegate`, missing these locations will generate an application error.
-
-In your `pubspec.yaml` add follow dependencie:
-
-```yaml
-  flutter_localizations:
-    sdk: flutter
-```
-
-And in your `MaterialApp`, add localizations in `supportedLocales`
+See an example of implementation below.
 
 ```dart
 MaterialApp(
-  localizationsDelegates: [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
+  supportedLocales: [
+    Locale('en'),
+    Locale('es'),
+    Locale('pt')
   ],
 )
 ```
 
-## Customize package locations
+## Internationalize a Package
 
-It is often used in package internationalizations, when the developer needs to modify the default messages used in package, for that you need to extend the location of your package.
+These implementations are only necessary if you want to allow applications that use your package to modify messages.
 
-First let's create the custom internationalization that will extend the default package location.
+To internationalize your package, you will first need to create the internationalization class, as explained above, after you will need to create an additional class to allow the application that uses your package to modify the default messages.
+
+See below how to implement the class.
+
+*The name of this class by default will be the name of the internationalization class concatenated with the text 'Delegate', and can be in the same file that has the implementation of the internationalization class.*
 
 ```dart
-class CustomLocalization extends ExampleLocalizations {
+class ExampleLocalizationsDelegate extends SimpleLocalizationsDelegate<ExampleLocalizations> {
+  ExampleLocalizationsDelegate(ExampleLocalizations Function(Locale locale) customLocalization) : super(customLocalization);
+}
+```
+
+When releasing your package for other applications to modify the internationalization messages, you should export the internationalization classes, as this example would be the `ExampleLocalizations` and` ExampleLocalizationsDelegate` classes.
+
+## Customizing internationalized packages
+
+In this section you will see how to customize the internationalization of a package that has internationalization with the `simple_localization` package.
+
+Before customizing the internationalization of the package, you will need to add the `flutter_localizations` dependency to your` pubspec.yaml`, as shown in the example below.
+
+```yaml
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+```
+
+After adding the dependency, create a class in your application that will contain the necessary modifications, this class should inherit the standard internationalization class of the package.
+
+```dart
+class CustomExampleLocalizations extends ExampleLocalizations {
+
+  /// Get operator to get the delegate to be used in `MaterialApp`
+  static ExampleLocalizationsDelegate get delegate => ExampleLocalizationsDelegate((locale) => CustomExampleLocalizations(locale));
+
+  /// Standard constructor
   CustomLocalization(Locale locale) : super(locale);
 
+  /// Language declaration with messages that will be modified in their respective languages
   @override
-  Map<dynamic, Map<dynamic, String>> get customValues => {
+  Map<String, Map<dynamic, String>> get customValues => {
     'en': {
       WidgetMessages.message1: 'Custom first message',
       WidgetMessages.message2: 'Custom second message',
@@ -117,12 +163,17 @@ class CustomLocalization extends ExampleLocalizations {
 }
 ```
 
-And finally, inform the delegate in `localizationsDelegates` of your apps `MaterialApp`.
+With the custom class created, it will be necessary to inform the `MaterialApp` that he should use the custom class for internationalization, see below the example.
 
 ```dart
 MaterialApp(
   localizationsDelegates: [
-    ExampleLocalizationsDelegate((locale) => CustomLocalization(locale)),
+    /// Inform the default Flutter locations
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    /// Customized localization declaration
+    CustomExampleLocalizations.delegate,
   ],
 )
 ```
+
