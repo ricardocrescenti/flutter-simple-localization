@@ -1,3 +1,8 @@
+## 1.2.2
+
+* Update in the file '.gitignore' not to comit 'pubspec.lock'
+* Deleted the file 'pubspec.lock'
+
 ## 1.2.1+1
 
 * Package documentation improvements.

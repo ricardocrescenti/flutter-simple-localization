@@ -1,5 +1,5 @@
 name: simple_localization
-version: 1.2.1+1
+version: 1.2.2
 description: Package to make it easy to implement localizations in your packages and applications.
 homepage: https://github.com/ricardocrescenti
 repository: https://github.com/ricardocrescenti/flutter-simple-localization
