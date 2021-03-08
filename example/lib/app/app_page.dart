@@ -26,15 +26,15 @@ class AppPage extends Component {
               padding: EdgeInsets.only(bottom: 20),
               child: Text(ExampleLocalizations.of(context)[ExampleLocalizationsEnums.bodyDescription], style: Theme.of(context).textTheme.headline4, textAlign: TextAlign.center,),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text(ExampleLocalizations.of(context)[ButtonsLocalizationsEnums.en]),
               onPressed: () => module.service<AppService>().changeLocale(Locale('en')),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text(ExampleLocalizations.of(context)[ButtonsLocalizationsEnums.es]),
               onPressed: () => module.service<AppService>().changeLocale(Locale('es')),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text(ExampleLocalizations.of(context)[ButtonsLocalizationsEnums.pt]),
               onPressed: () => module.service<AppService>().changeLocale(Locale('pt')),
             ),
