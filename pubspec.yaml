@@ -1,5 +1,5 @@
 name: simple_localization
-version: 1.2.2
+version: 1.2.2+1
 description: Package to make it easy to implement localizations in your packages and applications.
 homepage: https://github.com/ricardocrescenti
 repository: https://github.com/ricardocrescenti/flutter-simple-localization
@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.8.0
+  pedantic: ^1.11.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

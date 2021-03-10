@@ -6,7 +6,7 @@ abstract class SimpleLocalizations {
   
   /// Get current location
   static T of<T>(BuildContext context, T Function(Locale locale) orDefault) {
-    T localization = Localizations.of<T>(context, T);
+    var localization = Localizations.of<T>(context, T);
     return localization ?? orDefault(Localizations.localeOf(context));
   }
 

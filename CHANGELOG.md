@@ -1,3 +1,7 @@
+## 1.2.2+1
+
+* Made modifications related to updating the `pedantic` package to version `1.11.0`.
+
 ## 1.2.2
 
 * Update in the file '.gitignore' not to comit 'pubspec.lock'
