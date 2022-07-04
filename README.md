@@ -16,11 +16,11 @@ This package simplifies the internationalization of your package or application.
 
 Add the dependency on `pubspec.yaml`. 
 
-*Informing `^` at the beginning of the version, you will receive all updates that are made from version `1.0.0` up to the version before `2.0.0`.*
+*Informing `^` at the beginning of the version, you will receive all updates that are made from version `2.0.0` up to the version before `3.0.0`.*
 
 ```yaml
 dependencies:
-  simple_localization: ^1.2.0
+  simple_localization: ^2.0.0
 ```
 
 Import the package in the source code.
@@ -80,6 +80,7 @@ class ExampleLocalizations extends SimpleLocalizations {
       WidgetMessages.message2: 'Segunda mensagem',
     }
   };
+
 }
 ```
 
@@ -110,6 +111,7 @@ MaterialApp(
   ],
   localizationsDelegates: [
     GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
   ],
 )
@@ -127,11 +129,18 @@ See below how to implement the class.
 
 ```dart
 class ExampleLocalizationsDelegate extends SimpleLocalizationsDelegate<ExampleLocalizations> {
-  ExampleLocalizationsDelegate(ExampleLocalizations Function(Locale locale) customLocalization) : super(customLocalization);
+
+	const ExampleLocalizationsDelegate() : super();
+
+	@override
+	ExampleLocalizations initializeLocalization(Locale currentLocale) {
+		return ExampleLocalizations(currentLocale);
+	}
+
 }
 ```
 
-When releasing your package for other applications to modify the internationalization messages, you should export the internationalization classes, as this example would be the `ExampleLocalizations` and` ExampleLocalizationsDelegate` classes.
+When releasing your package for other applications to modify the internationalization messages, you should export the internationalization classes, as this example would be the `ExampleLocalizations` and `ExampleLocalizationsDelegate` classes.
 
 ## Customizing internationalized packages
 
@@ -151,7 +160,7 @@ After adding the dependency, create a class in your application that will contai
 class CustomExampleLocalizations extends ExampleLocalizations {
 
   /// Get operator to get the delegate to be used in `MaterialApp`
-  static ExampleLocalizationsDelegate get delegate => ExampleLocalizationsDelegate((locale) => CustomExampleLocalizations(locale));
+  static CustomExampleLocalizationsDelegate get delegate => CustomExampleLocalizationsDelegate();
 
   /// Standard constructor
   CustomLocalization(Locale locale) : super(locale);
@@ -173,6 +182,17 @@ class CustomExampleLocalizations extends ExampleLocalizations {
     }
   };
 }
+
+class CustomExampleLocalizationsDelegate extends CustomExampleLocalizations {
+
+	const CustomExampleLocalizationsDelegate() : super();
+
+	@override
+	ExampleLocalizations initializeLocalization(Locale currentLocale) {
+		return CustomExampleLocalizations(currentLocale);
+	}
+
+}
 ```
 
 With the custom class created, it will be necessary to inform the `MaterialApp` that he should use the custom class for internationalization, see below the example.
@@ -180,10 +200,11 @@ With the custom class created, it will be necessary to inform the `MaterialApp` 
 ```dart
 MaterialApp(
   localizationsDelegates: [
-    /// Inform the default Flutter locations
+    /// Inform the default Flutter localizations
     GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
-    /// Customized localization declaration
+    /// Inform the customized localization
     CustomExampleLocalizations.delegate,
   ],
 )
